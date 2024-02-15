@@ -1,0 +1,24 @@
+body{
+    background-color: rgb(0, 109, 142);
+}
+
+.task {
+    background-color: aqua;
+
+
+}
+.taskURGENT{
+    background-color : rgb(126, 0, 0);
+    padding: 0.25%;
+    border-radius: 25px 25px;
+}
+.taskMEDIUM{
+    background-color : rgb(255, 200, 0);
+    padding: 0.25%;
+    border-radius: 25px 25px;
+}
+.taskLOW{
+    background-color : rgb(0, 154, 0);
+    padding: 0.25%;
+    border-radius: 25px 25px;
+}

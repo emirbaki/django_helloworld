@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from todo_app.models import ToDoList
+from todo_app.views import ToDoListPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('todolists/<int:id>', ToDoList.id)
+    path('todolists/', ToDoListPage)
 ]

@@ -8,7 +8,7 @@ from django.urls import reverse
 def one_week_hence():
     return timezone.now() + timezone.timedelta(days=7)
 # Create your models here.
-class ToDoList(models.Model):
+class ToDoListModel(models.Model):
     title = models.CharField(max_length= 100, unique= True)
 
     def get_absolute_url(self):
@@ -31,7 +31,8 @@ class Task(models.Model):
     priority = models.CharField(max_length = 6,default = Priority.LOW, choices = Priority)
     due_date = models.DateTimeField(default = one_week_hence)
     created_date = models.DateTimeField(auto_now_add=True)
-    todo_list = models.ForeignKey(ToDoList, on_delete = models.CASCADE)
+    todo_list = models.ForeignKey(ToDoListModel, on_delete = models.CASCADE)
+    done = models.BooleanField(default = False)
     
     def get_absolute_url(self):
         return reverse(
