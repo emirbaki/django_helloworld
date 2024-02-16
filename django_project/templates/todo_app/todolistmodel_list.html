@@ -15,26 +15,34 @@
     </head> 
 
     <body>
-        <div>
+        <div class = "header">
 
             <h2> To Do Lists</h2>
             
-            <button> Add  </button>
+            <button> Add </button>
         </div>
         
-        <ul>
+        <ul class = "all_lists">
             <!-- Iterate over object_list -->
             {% for object in todolists %}
             <!-- Display Objects -->
-            <div>
-                <li>{{ object.title }}</li>
+            <li class = "todolist">
+                <h3>{{ object.title }}</h3>
                 <hr/>
         
                 {% for task in tasks%}
                 {%if task.todo_list == object %}
                 <div class = "task{{task.priority}}">
-                    <h3>{{ task.title}}</h3>
+                    <h4>{{ task.title}}</h4>
                     <p>{{ task.description}}</p>
+                    <label for="priorities">Priority:</label>
+                    <select name = "Priorities"id = "priorities">
+                        <option value="Urgent" {%if task.priority == "URGENT"%}selected {%endif%}>Urgent</option>
+                        <option value="Medium"{%if task.priority == "MEDIUM"%}selected {%endif%}>Medium</option>
+                        <option value="Low"{%if task.priority == "LOW"%}selected {%endif%}>Low</option>
+                    </select>
+                    <hr/>
+                    <input type = "checkbox">Completed</input>
         
                 </div>
             
@@ -45,7 +53,7 @@
                 {% empty %}
                 <li>No objects yet.</li>
                 {% endfor %}
-            </div>  
+            </li>  
         </ul>
     </body>
 </html>
