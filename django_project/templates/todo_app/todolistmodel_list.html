@@ -8,18 +8,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="{% static '/styles/style.css'%}">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--style-->
 
     </head> 
 
     <body>
+
+
         <div class = "header">
 
             <h2> To Do Lists</h2>
-            
-            <button> Add </button>
+            <div  class="submit_form">
+                <form  method="POST">
+                    {% csrf_token %}
+                    {{forms}}
+                    <center>
+                        <input type="submit" class="btn btn-default" value="Add New Todolist" name = "todolistForm_Btn"/>
+                    </center>
+                </form>
+            </div>
         </div>
         
         <ul class = "all_lists">
@@ -31,29 +40,58 @@
                 <hr/>
         
                 {% for task in tasks%}
-                {%if task.todo_list == object %}
-                <div class = "task{{task.priority}}">
-                    <h4>{{ task.title}}</h4>
-                    <p>{{ task.description}}</p>
-                    <label for="priorities">Priority:</label>
-                    <select name = "Priorities"id = "priorities">
-                        <option value="Urgent" {%if task.priority == "URGENT"%}selected {%endif%}>Urgent</option>
-                        <option value="Medium"{%if task.priority == "MEDIUM"%}selected {%endif%}>Medium</option>
-                        <option value="Low"{%if task.priority == "LOW"%}selected {%endif%}>Low</option>
-                    </select>
-                    <hr/>
-                    <input type = "checkbox">Completed</input>
-        
-                </div>
+                    {%if task.todo_list == object %}
+                    <div class = "task{{task.priority}}">
+                        <h4>{{ task.title}}</h4>
+                        <p>{{ task.description}}</p>
+                        <label for="priorities">Priority:</label>
+                        <select name = "Priorities"id = "priorities">
+                            <option value="Urgent" {%if task.priority == "URGENT"%}selected {%endif%}>Urgent</option>
+                            <option value="Medium"{%if task.priority == "MEDIUM"%}selected {%endif%}>Medium</option>
+                            <option value="Low"{%if task.priority == "LOW"%}selected {%endif%}>Low</option>
+                        </select>
+                        <hr/>
+                        <input type = "checkbox">Completed</input>
             
-                {% endif %}
+                    </div>
                 
+                    {% endif %}
                 {% endfor %}
-                <!-- If objet_list is empty  -->
-                {% empty %}
-                <li>No objects yet.</li>
+                <form id="task-form {{object.id}}" method="POST" style="display: none;">
+                    {% csrf_token %}
+
+                    {{ taskForms }}
+                    <input name="taskForm_Btn" value = "{{object.id}}" style="display: none;"/>
+                    <button type="submit">Submit</button>
+                </form> 
+                    <center>
+                        <button id = "{{object.id}}" class="btn"/>Add New Task </button>
+                    </center>
+                    
+                    <!-- If object_list is empty  -->
+                    {% empty %}
+                    <li>No objects yet.</li>
+                    <button> Add New Task </button>
                 {% endfor %}
+    
             </li>  
         </ul>
+
+
     </body>
+
+    <script>
+        $('.btn').click(function () {
+
+            var t = (this.id);
+            showForm(t);
+        });  
+
+
+        function showForm(id){
+            
+            var id_last = "task-form " + id.toString();
+            document.getElementById(id_last).style.display = "block";
+        }
+    </script>
 </html>
