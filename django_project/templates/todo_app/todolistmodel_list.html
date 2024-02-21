@@ -57,13 +57,13 @@
                 
                     {% endif %}
                 {% endfor %}
-                <form id="task-form {{object.id}}" method="POST" style="display: none;">
-                    {% csrf_token %}
+                    <form id="task-form-{{ object.id }}" method="POST">
+                        {% csrf_token %}
 
-                    {{ taskForms }}
-                    <input name="taskForm_Btn" value = "{{object.id}}" style="display: none;"/>
-                    <button type="submit">Submit</button>
-                </form> 
+                        {{ taskForms }}
+                        <input name="taskForm_Btn" value = "{{ object.id }}" style="display: none;"/>
+                        <button type="submit">Submit</button>
+                    </form> 
                     <center>
                         <button id = "{{object.id}}" class="btn"/>Add New Task </button>
                     </center>
@@ -90,7 +90,7 @@
 
         function showForm(id){
             
-            var id_last = "task-form " + id.toString();
+            var id_last = "task-form-" + id.toString();
             document.getElementById(id_last).style.display = "block";
         }
         

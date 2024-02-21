@@ -52,7 +52,6 @@ def update_task(request):
             
             task = Task.objects.get(id=task_id)
             task.done = completed
-            print(f"task {task.id} işaretlendi: {task.done}")
             task.save()
             return JsonResponse({'success': True})
         except Task.DoesNotExist:
