@@ -51,7 +51,7 @@
                             <option value="Low"{%if task.priority == "LOW"%}selected {%endif%}>Low</option>
                         </select>
                         <hr/>
-                        <input type = "checkbox">Completed</input>
+                        <input type="checkbox" class="task-checkbox" data-task-id="{{ task.id }}" {% if task.done %}checked{% endif %}/>Completed </input>
             
                     </div>
                 
@@ -93,5 +93,29 @@
             var id_last = "task-form " + id.toString();
             document.getElementById(id_last).style.display = "block";
         }
+        
+        $(document).ready(function() {
+            $('.task-checkbox').change(function() {
+                const taskId = $(this).data('task-id');
+                const isChecked = $(this).is(':checked');
+
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/update-tasks/',
+                    data: {
+                        'task_id': taskId,
+                        'completed': isChecked ? 'true' : 'false',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        console.log('Task updated successfully');
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log('Error updating task');
+                    }
+                });
+            });
+        });
     </script>
 </html>

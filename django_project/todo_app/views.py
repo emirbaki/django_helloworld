@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.views.generic.list import ListView
 from django.contrib import messages
 # Create your views here.
@@ -42,6 +43,22 @@ def ToDoListPage(req):
         "tasks" : Task.objects.all
     }
     return render(req, '../templates/todo_app/todolistmodel_list.html', context)
+
+def update_task(request):
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        task_id = request.POST.get('task_id')
+        completed = request.POST.get('completed') == 'true'
+        try:
+            
+            task = Task.objects.get(id=task_id)
+            task.done = completed
+            print(f"task {task.id} işaretlendi: {task.done}")
+            task.save()
+            return JsonResponse({'success': True})
+        except Task.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Task not found'})
+    # return JsonResponse({'success': False, 'error': 'Invalid request'})
+    return redirect('todolists')
 
 def remove(request, item_id):
     item = ToDoListModel.objects.get(id=item_id)
