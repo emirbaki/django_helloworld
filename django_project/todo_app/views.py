@@ -59,8 +59,8 @@ def update_task(request):
     # return JsonResponse({'success': False, 'error': 'Invalid request'})
     return redirect('todolists')
 
-def remove(request, item_id):
-    item = ToDoListModel.objects.get(id=item_id)
+def remove(request, task_id):
+    item = Task.objects.get(id=task_id)
     item.delete()
     messages.info(request, "item removed !!!")
     return redirect('todolists')
